@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
+
+    You may not modify, use, reproduce, or distribute this software except in
+    compliance with  the terms of the License at:
+    http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <title>formulier javaee</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            
+            <h2>
+               voornaam <p:inputText id="voornaam" value="#{klant.voornaam}"/>
+               achternaam  <p:inputText id="achternaam" value="#{klant.achternaam}"/> <br/>
+               email <p:inputText id="email" value="#{klant.email}"/><br/>
+               <br/>
+               straat <p:inputText id="straat" value="#{adres.straat}"/> <p:inputText id="huisnr" value="#{adres.huisnr}" /><br/>
+               postcode <p:inputText id="postcode" value="#{adres.postcode}"/><br/>
+                   plaats <p:inputText id="plaats" value="#{adres.plaatsnaam}"/><br/>
+                       
+                   
+               
+            </h2>
+            <h:commandButton id="vulin" value="vulin" action="#{firstManager.saveKlantAdres(klant, adres)}"/>
+            
+        </h:form>
+        <h:form>
+        <p:tab id="personal" title="Personal">
+            <p:panel header="Personal Details">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputText value="Firstname: *" />
+                    <p:inputText value="#{klant.voornaam}" required="true" label="Firstname"/>
+ 
+                    <h:outputText value="Lastname: *" />
+                    <p:inputText value="#{klant.achternaam}" required="true" label="Lastname"/>
+ 
+                    <h:outputText value="email: *" />
+                    <p:inputText value="#{klant.email}" required="true" label="Email" />
+ 
+                    <h:outputText value="Straatnaam: " />
+                    <p:inputText value="#{adres.straat}" required="true" label="Straat" />
+                    <h:outputText value="Huisnr: *" />
+                    <p:inputText value="#{adres.huisnr}" required="true" label="Huisnr" />
+                    <h:outputText value="Postcode: *" />
+                    <p:inputText value="#{adres.postcode}" required="true" label="Postcode" />
+                    <h:outputText value="Plaatsnaam: *" />
+                    <p:inputText value="#{adres.plaatsnaam}" required="true" label="Plaatsnaam" />
+                    
+                    
+                </h:panelGrid>
+                <h:commandButton id="save" value="save" action="#{firstManager.saveKlantAdres(klant, adres)}"/>
+            </p:panel>
+        </p:tab>
+    </h:form>
+        
+    </h:body>
+    <h:form>
+    <h:commandButton id="back2" value="Back" action="index"/>
+    </h:form>
+    
+     <h3>Hello, #{klant.achternaam}!</h3>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+                <h:outputStylesheet library="css" name="styles.css"  /> 
+            </f:facet>
+        </h:head>
+        <h:body>
+           <p:layout fullPage="true">
+            <div id="header" styleClass="header" >
+		<ui:insert name="header" >
+		  <ui:include src="/template/header.xhtml" />
+		</ui:insert>
+	    </div>
+            <div id="footer">
+		<ui:insert name="footer" >
+		  <ui:include src="/template/footer.xhtml" />
+		</ui:insert>
+	    </div>
+            <div id="left">
+                
+		<ui:insert name="left" >
+		  <ui:include src="/template/left.xhtml" />
+		</ui:insert>
+	    </div>
+
+                
+
+               
+
+                <p:layoutUnit position="center">
+
+                    <h:form>
+                        <h:commandButton id="nieuweklant" value="voeg toe"
+                                         action="response"/>
+                    </h:form>
+
+                    <p:dataTable id="eventsDT" styleClass="eventsDT" var="klantje" value="#{firstManager.klanten}" selectionMode="single" selection="#{firstManager.selectedKlant}" rowKey="#{klantje.idklant}">
+                        <f:facet name="header">
+                            Onze klanten
+                        </f:facet>
+                        <p:ajax event="rowSelect" listener="#{firstManager.onRowSelect}" update =":geselecteerde1" />
+
+                        <p:column headerText="Id">
+                            <h:outputText value="#{klantje.idklant}" />
+                        </p:column>
+                        <p:column headerText="voornaam">
+                            <h:outputText value="#{klantje.voornaam}" />
+                        </p:column>
+                        <p:column headerText="achternaam">
+                            <h:outputText value="#{klantje.achternaam}" />
+                        </p:column>
+                        <p:column headerText="email">
+                            <h:outputText value="#{klantje.email}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <h:form>
+                        <p:messages id="message1" showDetail="true" autoUpdate="true" closable="true" />
+                    </h:form>
+                    <h:panelGrid  id="geselecteerde1" columns="2" columnClasses="label, value">
+                        <h:outputText  value="#{firstManager.selectedKlant.achternaam}" ></h:outputText>
+                        <h:outputText value="#{firstManager.selectedAdres.straat}" ></h:outputText>
+                    </h:panelGrid>
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

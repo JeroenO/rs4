@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+     xmlns:c = "http://java.sun.com/jsp/jstl/core">
+    
+    <h:head>
+        <title>enter da store</title>
+      
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <h:outputStylesheet library="css" name="styles.css"  /> 
+               <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    <p>
+                    <h5>
+                        <h:outputText styleClass="loggedInAs" id="loggedInAs" value="welkom #{firstManager.klant.achternaam}"/>
+                    </h5>  
+                        
+                        
+                    <h:form >
+                        <h:inputText id="user"
+                                     title="log in als:"
+                                     value="#{firstManager.klantID}">
+                        </h:inputText>
+                        <p:commandButton id="bevestigLogin" value="log in"
+                                         update = ":loggedInAs" />
+                    
+                    </h:form>
+                    
+                    
+                    </p>
+
+                </p:layoutUnit>
+            
+            
+        </ui:composition>
+        
+    </h:body>
+</html>
+
