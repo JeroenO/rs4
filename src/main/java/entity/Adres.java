@@ -67,7 +67,7 @@ public class Adres implements Serializable {
     @JoinTable(name = "klant_has_adres", joinColumns = {
         @JoinColumn(name = "adres_idadres", referencedColumnName = "idadres")}, inverseJoinColumns = {
         @JoinColumn(name = "klant_idklant", referencedColumnName = "idklant")})
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Klant> klantCollection = new HashSet<>();
 
     public Adres() {
@@ -147,10 +147,10 @@ public class Adres implements Serializable {
             return false;
         }
         Adres other = (Adres) object;
-        if ((this.idadres == null && other.idadres != null) || (this.idadres != null && !this.idadres.equals(other.idadres))) {
-            return false;
+        if (this.huisnr.equals(other.huisnr) && this.postcode.equals(other.postcode)) {
+            return true;
         }
-        return true;
+        else return false;
     }
 
     @Override

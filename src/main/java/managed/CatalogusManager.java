@@ -13,6 +13,7 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import session.ArtikelFacade;
 
@@ -37,14 +38,32 @@ public class CatalogusManager implements Serializable {
       artikelFacade.create(artikel);
     }
     
+    public void verversCatalogus() {
+        
+        catalogus = artikelFacade.findAll();
+    }
     
     public void onRowSelect(SelectEvent event) {
       
        selectedArtikel = (Artikel)(event.getObject());
     }
     
+    public void onRowEdit(RowEditEvent event){
+  
+      
+      Artikel art = (Artikel)(event.getObject());
+      
+      updateArtikel(art);
+      
+    } 
+    public void updateArtikel(Artikel art){
+        
+        artikelFacade.edit(art);
+    }
+    
+    
     public List<Artikel> getCatalogus() {
-        catalogus = artikelFacade.findAll();
+        if (catalogus == null) catalogus = artikelFacade.findAll();
         return catalogus;
     }
 

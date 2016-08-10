@@ -6,9 +6,11 @@
 package session;
 
 import entity.Adres;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,13 @@ public class AdresFacade extends AbstractFacade<Adres> {
 
     public AdresFacade() {
         super(Adres.class);
+    }
+    
+    public List<Adres> findByPostcode(Adres adres) {
+        String qlString = "select a FROM Adres a where a.postcode = :pc ";
+        Query q = em.createQuery(qlString).setParameter("pc", adres.getPostcode());
+        return (List<Adres>)q.getResultList();
+        
     }
     
 }

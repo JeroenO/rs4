@@ -14,64 +14,125 @@
             </f:facet>
         </h:head>
         <h:body>
-           <p:layout fullPage="true">
-            <div id="header" styleClass="header" >
-		<ui:insert name="header" >
-		  <ui:include src="/template/header.xhtml" />
-		</ui:insert>
-	    </div>
-            <div id="footer">
-		<ui:insert name="footer" >
-		  <ui:include src="/template/footer.xhtml" />
-		</ui:insert>
-	    </div>
-            <div id="left">
-                
-		<ui:insert name="left" >
-		  <ui:include src="/template/left.xhtml" />
-		</ui:insert>
-	    </div>
+            <p:layout fullPage="true">
+                <div id="header" styleClass="header" >
+                    <ui:insert name="header" >
+                        <ui:include src="/template/header.xhtml" />
+                    </ui:insert>
+                </div>
+                <div id="footer">
+                    <ui:insert name="footer" >
+                        <ui:include src="/template/footer.xhtml" />
+                    </ui:insert>
+                </div>
+                <div id="left">
 
-                
-
-               
-
+                    <ui:insert name="left" >
+                        <ui:include src="/template/left.xhtml" />
+                    </ui:insert>
+                </div>
                 <p:layoutUnit position="center">
 
                     <h:form>
                         <h:commandButton id="nieuweklant" value="voeg toe"
-                                         action="response"/>
+                                         action="inschrijfForm"/>
                     </h:form>
 
-                    <p:dataTable id="eventsDT" styleClass="eventsDT" var="klantje" value="#{firstManager.klanten}" selectionMode="single" selection="#{firstManager.selectedKlant}" rowKey="#{klantje.idklant}">
+                    <p:dataTable id="eventsDT" styleClass="eventsDT" var="klantje" value="#{firstManager.onzeKlanten}" editable="true" selectionMode="single" selection="#{firstManager.selectedKlant}" rowKey="#{klantje.idklant}" scrollable="true" scrollHeight="150">
                         <f:facet name="header">
                             Onze klanten
                         </f:facet>
-                        <p:ajax event="rowSelect" listener="#{firstManager.onRowSelect}" update =":geselecteerde1" />
-
-                        <p:column headerText="Id">
+                        <p:ajax event="rowSelect" listener="#{firstManager.onRowSelect}" update =":form1:adressenKlant2" />
+                        <p:ajax event="rowEdit" listener="#{firstManager.onRowEdit}" />    
+                        <p:column headerText="Id" style="width:62px">
                             <h:outputText value="#{klantje.idklant}" />
                         </p:column>
                         <p:column headerText="voornaam">
-                            <h:outputText value="#{klantje.voornaam}" />
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{klantje.voornaam}" /></f:facet>
+                                <f:facet name="input"> <h:inputText value="#{klantje.voornaam}" /></f:facet>
+                            </p:cellEditor>
                         </p:column>
                         <p:column headerText="achternaam">
-                            <h:outputText value="#{klantje.achternaam}" />
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{klantje.achternaam}" /></f:facet>
+                                <f:facet name="input"><h:inputText value="#{klantje.achternaam}" /></f:facet>
+                            </p:cellEditor>
                         </p:column>
                         <p:column headerText="email">
-                            <h:outputText value="#{klantje.email}" />
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{klantje.email}" /></f:facet>
+                                <f:facet name="input"><h:inputText value="#{klantje.email}" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:rowEditor />
                         </p:column>
 
                     </p:dataTable>
 
 
+                    <h:form id="form1">               
+
+                        <p:dataTable id="adressenKlant2" var="adr" value="#{firstManager.selectedKlant.adresCollection}" editable="true" style="margin-bottom:20px">
+                            <f:facet name="header">
+                                adressen van klant
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{adressenTabel.onRowEdit}" />
+
+                            <p:column headerText="Id">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{adr.idadres}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{adr.idadres}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Straat">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{adr.straat}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{adr.straat}" style="width:100%" label="Year"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>           
+
                     <h:form>
-                        <p:messages id="message1" showDetail="true" autoUpdate="true" closable="true" />
+                        <h:commandButton id="test" value="refresh"
+                                         action= "#{firstManager.refreshLijst()}" />
+                    </h:form>            
+
+                    <h:form id="adresForm">
+                        <p:tab id="adres" title="adres" rendered="#{firstManager.selectedID != 0}">
+                            <p:panel header="adres toevoegen">
+                                <p:messages />
+                                <h:panelGrid columns="2" columnClasses="label, value">
+
+                                    <h:outputText value="Straatnaam: " />
+                                    <p:inputText value="#{adres.straat}" required="true" label="Straat" />
+                                    <h:outputText value="Huisnr: *" />
+                                    <p:inputText value="#{adres.huisnr}" required="true" label="Huisnr" />
+                                    <h:outputText value="Postcode: *" />
+                                    <p:inputText value="#{adres.postcode}" required="true" label="Postcode" />
+                                    <h:outputText value="Plaatsnaam: *" />
+                                    <p:inputText value="#{adres.plaatsnaam}" required="true" label="Plaatsnaam" />
+
+
+                                </h:panelGrid>
+                                <h:commandButton id="save" value="save" action="#{nieuweKlant.voegAdresToe(firstManager.selectedID, adres)}"/>
+                            </p:panel>
+                        </p:tab>
                     </h:form>
-                    <h:panelGrid  id="geselecteerde1" columns="2" columnClasses="label, value">
-                        <h:outputText  value="#{firstManager.selectedKlant.achternaam}" ></h:outputText>
-                        <h:outputText value="#{firstManager.selectedAdres.straat}" ></h:outputText>
-                    </h:panelGrid>
+                    <h:form>
+                        <p:commandButton id="nieuwadres" value="voeg adres toe"
+                                         update = "adresForm" rendered = "#{firstManager.selectedID == 0}"/>
+                    </h:form>
+
+
                 </p:layoutUnit>
 
             </p:layout>

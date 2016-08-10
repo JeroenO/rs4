@@ -17,21 +17,28 @@
                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
                     <p>
                     <h5>
-                        <h:outputText styleClass="loggedInAs" id="loggedInAs" value="welkom #{firstManager.klant.achternaam}"/>
+                        <h:outputText styleClass="loggedInAs" id="loggedInAs" value="welkom #{passwordManager.ingelogdeKlant.achternaam} met password #{passwordManager.ingevuld}"/>
                     </h5>  
-                        
-                        
+                     <h6>    
+                        <h:link outcome ="index" value = "home "></h:link>  <h:link outcome ="inschrijfForm" value = "sign up "></h:link>      
+                     </h6>    
                     <h:form >
                         <h:inputText id="user"
                                      title="log in als:"
-                                     value="#{firstManager.klantID}">
+                                     value="#{passwordManager.inlogNr}">
                         </h:inputText>
-                        <p:commandButton id="bevestigLogin" value="log in"
+                        <p:password id="password"
+                                     title="password:"
+                                     value="#{passwordManager.ingevuld}">
+                        </p:password>
+                        <p:commandButton id="bevestigLogin" value="log in" action = "#{passwordManager.pwTest}"
                                          update = ":loggedInAs" />
-                    
+                        
                     </h:form>
-                    
-                    
+                    <h:form >
+                        <p:commandButton id="tester" value="test" action = "#{passwordManager.pwTest}"
+                                         update = ":loggedInAs" />
+                    </h:form>   
                     </p>
 
                 </p:layoutUnit>

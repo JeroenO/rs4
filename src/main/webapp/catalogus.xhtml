@@ -14,22 +14,18 @@
             </f:facet>
         </h:head>
         <h:body>
-           <p:layout fullPage="true">
-            <div id="header" styleClass="header" >
-		<ui:insert name="header" >
-		  <ui:include src="/template/header.xhtml" />
-		</ui:insert>
-	    </div>
-            <div id="footer">
-		<ui:insert name="footer" >
-		  <ui:include src="/template/footer.xhtml" />
-		</ui:insert>
-	    </div>
-            
+            <p:layout fullPage="true">
+                <div id="header" styleClass="header" >
+                    <ui:insert name="header" >
+                        <ui:include src="/template/header.xhtml" />
+                    </ui:insert>
+                </div>
+                <div id="footer">
+                    <ui:insert name="footer" >
+                        <ui:include src="/template/footer.xhtml" />
+                    </ui:insert>
+                </div>
 
-                
-
-               
 
                 <p:layoutUnit position="center">
 
@@ -38,7 +34,7 @@
                                          action="voegArtToe"/>
                     </h:form>
 
-                    <p:dataTable id="catalogus" styleClass="eventsDT" var="art" value="#{catalogusManager.catalogus}" selectionMode="single" selection="#{catalogusManager.selectedArtikel}" rowKey="#{art.idartikel}">
+                    <p:dataTable id="catalogus" styleClass="eventsDT" var="art" value="#{catalogusManager.catalogus}" selectionMode="single" selection="#{catalogusManager.selectedArtikel}" rowKey="#{art.idartikel}"   >
                         <f:facet name="header">
                             Onze Catalogus
                         </f:facet>
@@ -53,9 +49,41 @@
                         <p:column headerText="prijs">
                             <h:outputText value="#{art.prijs}" />
                         </p:column>
-                        
-
+                        <p:column headerText="in winkelmandje">
+                            <h:link outcome ="index" value = "voeg toe"></h:link>
+                        </p:column>
                     </p:dataTable>
+                    <h:form>
+
+                        <p:dataTable id="editCatalogus" var="artik" value="#{catalogusManager.catalogus}" editable="true" style="margin-bottom:20px " rendered="#{passwordManager.ingelogdeKlant.idklant eq 13}">
+                            <f:facet name="header">
+                                Row Editing
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{catalogusManager.onRowEdit}"  />
+
+
+                            <p:column headerText="Id">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{artik.idartikel}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{artik.idartikel}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Year">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{artik.naam}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{artik.naam}" style="width:100%" label="Year" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable>
+
+                    </h:form>            
 
 
                     <h:form>
